@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  streamlit:
+    build:
+      context: logo
+      dockerfile: Dockerfile
+    container_name: cassandra-app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data          # Montowanie danych
+      - ./app.py:/app/app.py      # Hot reload dla developmentu
+      - ./Pages:/app/Pages
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
