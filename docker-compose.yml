@@ -1,18 +1,33 @@
-version: '3.8'
-
 services:
-  cassandra-app:
-    build: .
-    container_name: cassandra-spatial-app
+  invisterra-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: invisterra-app
     ports:
       - "8501:8501"
-    volumes:
-      - ./:/app
-      - data-volume:/app/data
-    environment:
-      - STREAMLIT_SERVER_HEADLESS=true
-      - STREAMLIT_SERVER_FILE_WATCHER_TYPE=poll
     restart: unless-stopped
+    environment:
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+    networks:
+      - invisterra-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  invisterra-network:
+    driver: bridge
 
 volumes:
-  data-volume:
+  data:
+  uploads:
