@@ -1,17 +1,18 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  streamlit:
-    build:
-      context: logo
-      dockerfile: Dockerfile
-    container_name: cassandra-app
+  cassandra-app:
+    build: .
+    container_name: cassandra-spatial-app
     ports:
       - "8501:8501"
     volumes:
-      - ./data:/app/data          # Montowanie danych
-      - ./app.py:/app/app.py      # Hot reload dla developmentu
-      - ./Pages:/app/Pages
+      - ./:/app
+      - data-volume:/app/data
     environment:
-      - PYTHONUNBUFFERED=1
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_SERVER_FILE_WATCHER_TYPE=poll
     restart: unless-stopped
+
+volumes:
+  data-volume:
