@@ -1,7 +1,7 @@
 <p align="center">
   <img src="logo/logo.png" alt="InvisTerra logo" width="256">
 </p>
-<h1 align="center">InvisTerra – Tool for multispectral Land Analysis</h1>
+<h1 align="center">InvisTerra – Toolkit for Multispectral Land Analysis</h1>
 
 InvisTerra is an educational toolkit for **satellite imagery analysis** and **spectral index mapping** based on Sentinel‑2 data, built with **Streamlit** and modern Python geospatial libraries.
 The application enables experimenting with raster/vector loading, spectral index computation, zonal statistics and professional cartographic visualizations.
