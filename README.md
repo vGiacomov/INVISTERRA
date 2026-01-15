@@ -114,7 +114,7 @@ InvisTerra/
 
 ```bash
 git clone https://github.com/vGiacomov/INVISTERRA-Toolkit-for-Multispectral-Land-Analysis
-cd InvisTerra
+cd INVISTERRA-Toolkit-for-Multispectral-Land-Analysis
 ```
 
 ### 2. Create and activate virtual environment (recommended)
