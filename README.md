@@ -113,7 +113,7 @@ InvisTerra/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/InvisTerra.git
+git clone https://github.com/vGiacomov/INVISTERRA-Toolkit-for-Multispectral-Land-Analysis
 cd InvisTerra
 ```
 
