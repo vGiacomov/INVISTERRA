@@ -7,7 +7,6 @@ def render():
     col1, col2 = st.columns([1, 2])
 
     with col1:
-        # Load and display logo - LEFT ALIGNED
         try:
             logo = Image.open("logo/logo.png")
             st.image(logo)
@@ -22,7 +21,6 @@ def render():
             """, unsafe_allow_html=True)
 
     with col2:
-        # Welcome section - RIGHT ALIGNED
         st.markdown("""
         <div class="welcome-container">
             <h1 class="welcome-title">WELCOME IN INVISTERRA</h1>
@@ -30,7 +28,6 @@ def render():
         </div>
         """, unsafe_allow_html=True)
 
-        # Let's start button - right aligned
         col_spacer, col_btn = st.columns([1, 1])
         with col_btn:
             if st.button("LET'S START", use_container_width=True, key="start_btn"):

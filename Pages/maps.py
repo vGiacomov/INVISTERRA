@@ -14,8 +14,6 @@ import io
 
 
 def render():
-    """Render the MAPS tab for raster and vector analysis"""
-
     st.markdown(
         """
     <style>
@@ -316,7 +314,6 @@ def display_statistics(index_array, index_type):
 
 
 def _format_distance_exact(meters: float) -> str:
-    """Formatuje dokładną wartość bez zaokrągleń (2 miejsca po przecinku)"""
     if meters >= 1000:
         km = meters / 1000.0
         return f"{km:.2f} km"
@@ -340,7 +337,6 @@ def _get_meters_per_pixel(profile, scale_mode: str, manual_m_per_px: float) -> f
 def visualize_index_pixel_space(index_array, profile, index_type, colormap, reverse_cmap,
                                 map_title, show_scale, show_north, show_legend,
                                 scale_mode, manual_m_per_px, scale_bar_percentage):
-    """Render w pikselach, pasek skali wypełnia % legend box, bez zaokrągleń"""
     st.markdown("### 🎨 Index Visualization")
 
     fig = plt.figure(figsize=(20, 14), dpi=150, facecolor="white")
@@ -384,7 +380,6 @@ def visualize_index_pixel_space(index_array, profile, index_type, colormap, reve
         transform=fig.transFigure, zorder=11,
     )
 
-    # COLORBAR
     if show_legend:
         cbar_left = legend_left + 0.025
         cbar_bottom = legend_bottom + 0.09
@@ -419,31 +414,14 @@ def visualize_index_pixel_space(index_array, profile, index_type, colormap, reve
             transform=fig.transFigure, zorder=13,
         )
 
-    # SCALE BAR (SZEROKI I DOKŁADNY)
     if show_scale:
         m_per_px = _get_meters_per_pixel(profile, scale_mode, manual_m_per_px)
         map_width_m = w * m_per_px
 
-        # dostępna przestrzeń w legend box (jak colorbar)
         available_width_fig = legend_width - 0.05
 
-        # użyj X% tej przestrzeni (parametr użytkownika)
         scale_bar_width_fig = available_width_fig * (scale_bar_percentage / 100.0)
 
-        # ile metrów reprezentuje ten pasek?
-        # pasek zajmuje scale_bar_width_fig z całkowitej figury, ale mapa ma szerokość w (pikseli)
-        # więc proporcja: (scale_bar_width_fig / (całkowita_szerokość_figury)) ≈ ???
-        # ale łatwiej: jeśli pasek ma być X% dostępnego, weźmy odpowiednią część mapy
-        # np. skala wypełnia 90% legend_box → niech odpowiada ~20-30% szerokości mapy (w metrach)
-
-        # ALTERNATYWNIE: użyjmy bezpośrednio – niech pasek *zawsze* wypełnia % legend_box
-        # i pokazuje rzeczywistą odległość proporcjonalną do jego szerokości na figurze
-        # vs. szerokości obrazu (w).
-
-        # Proporcja: scale_bar_width_fig (jednostki figury) to jaka część całej szerokości obrazu?
-        # Obraz zajmuje 100% figury (ax=[0,0,1,1]), więc 1.0 jednostki figury = w pikseli mapy.
-        # Więc: scale_bar_width_fig jednostek figury = scale_bar_width_fig * w pikseli mapy.
-        # A to w metrach: scale_bar_width_fig * w * m_per_px.
 
         scale_bar_meters = scale_bar_width_fig * w * m_per_px
         label = _format_distance_exact(scale_bar_meters)
@@ -452,7 +430,6 @@ def visualize_index_pixel_space(index_array, profile, index_type, colormap, reve
         scale_bar_bottom = legend_bottom + 0.03
         scale_bar_height = 0.025
 
-        # czarno-biały pasek (2 segmenty)
         black_seg = Rectangle(
             (scale_bar_left, scale_bar_bottom),
             scale_bar_width_fig / 2, scale_bar_height,
@@ -469,7 +446,6 @@ def visualize_index_pixel_space(index_array, profile, index_type, colormap, reve
         )
         fig.patches.append(white_seg)
 
-        # ETYKIETY (0 i pełna wartość)
         label_y = scale_bar_bottom - 0.012
         fig.text(scale_bar_left, label_y, "0",
                  ha="left", va="top", fontsize=12, fontweight="bold",
@@ -479,7 +455,6 @@ def visualize_index_pixel_space(index_array, profile, index_type, colormap, reve
                  ha="right", va="top", fontsize=12, fontweight="bold",
                  transform=fig.transFigure, zorder=13)
 
-    # NORTH ARROW
     if show_north:
         north_x, north_y, north_size = 0.945, 0.92, 0.045
         north_ax = fig.add_axes([north_x, north_y, north_size, north_size * 1.5])
@@ -502,7 +477,6 @@ def visualize_index_pixel_space(index_array, profile, index_type, colormap, reve
         north_ax.set_ylim(0, 1)
         north_ax.axis("off")
 
-    # METADATA
     metadata_left, metadata_bottom = 0.72, 0.01
     metadata_width, metadata_height = 0.27, 0.08
 
